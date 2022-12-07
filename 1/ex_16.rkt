@@ -59,10 +59,26 @@
   (cond (( = n 0)
          a)
         ((even? n)
-         (fast-expt-iter (* a (square b)) b (/ n 2)))
+         (fast-expt-iter a (square b) (/ n 2)))
         (else
          (fast-expt-iter (* a b) b (- n 1)))))
 
+; in the above code, ab^n is invariant, because if n is even, then in
+; the next iteration
+; let a'=a, b'=b^2, n'=(n/2)
+; a'b'^n'
+; = ab^2^(n/2)
+; = ab^n by the identity (b^m)^n = b^mn
+
+; if n is odd, then in the next iteration
+; let a'=ab, b'=b, n'=n-1
+; a'b'^n'
+; = abb^(n-1)
+; = a(b^1 * b^(n-1))
+; = ab^n by the identity b^m * b^n = b^m+n
+
 (fast-expt 2 4)
 (fast-expt 2 5)
-(fast-expt 3 3)
+(fast-expt 3 4)
+(fast-expt 9 7)
+(fast-expt 3 0)
