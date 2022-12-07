@@ -2,10 +2,10 @@
 
 ; the following procedure implements a linear recursive for computing b^n:
 
-(define (expt b n)
+(define (expt-rec b n)
   (if (= n 0) 
       1 
-      (* b (expt b (- n 1)))))
+      (* b (expt-rec b (- n 1)))))
 
 ; this is just a direct translation of the definition of exponentiation
 ; into scheme:
@@ -33,16 +33,19 @@
 ; combining this successive squaring method with the original recursive
 ; method, we get the following recursive procedure:
 
-(define (fast-expt b n)
+(define (fast-expt-rec b n)
   (cond ((= n 0) 
          1)
         ((even? n) 
-         (square (fast-expt b (/ n 2))))
+         (square (fast-expt-rec b (/ n 2))))
         (else 
-         (* b (fast-expt b (- n 1))))))
+         (* b (fast-expt-rec b (- n 1))))))
 
 (define (even? n)
   (= (remainder n 2) 0))
+
+(define (square n)
+  (* n n))
 
 ; this procedure grows logarithmically with n (O(log n)) in both space
 ; and time
@@ -53,6 +56,13 @@
   (fast-expt-iter 1 b n))
 
 (define (fast-expt-iter a b n)
-  )
+  (cond (( = n 0)
+         a)
+        ((even? n)
+         (fast-expt-iter (* a (square b)) b (/ n 2)))
+        (else
+         (fast-expt-iter (* a b) b (- n 1)))))
 
-
+(fast-expt 2 4)
+(fast-expt 2 5)
+(fast-expt 3 3)
