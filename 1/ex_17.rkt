@@ -33,8 +33,6 @@
         (else
          (+ a (fast-multiply a (- b 1))))))
 
-; fast-multiply uses ceiling(log_2(b)) steps
-
 (trace multiply)
 (trace fast-multiply)
 (multiply 12 12)

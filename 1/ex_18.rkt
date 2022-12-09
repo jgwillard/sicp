@@ -31,12 +31,18 @@
         (else
          (+ a (fast-multiply-rec a (- b 1))))))
 
-; fast-multiply uses ceiling(log_2(b)) steps
-
 (define (fast-multiply a b)
   (fast-multiply-iter a b 0))
 
-; maintain as invariant ab + n
+(define (fast-multiply-iter a b total)
+  (cond ((= b 0)
+      total)
+     ((even? b)
+      (fast-multiply-iter (double a) (halve b) total))
+     (else
+      (fast-multiply-iter a (- b 1) (+ total a)))))
+
+; in the above code, maintain as invariant ab + n
 ; if b is odd, then in the next iteration
 ; let a'=a, b'=b-1, n'=n + a
 ; a'b' + n
@@ -52,13 +58,8 @@
 ; = 2ab/2 + n
 ; = ab + n
 
-(define (fast-multiply-iter a b total)
-  (cond ((= b 0)
-      total)
-     ((even? b)
-      (fast-multiply-iter (double a) (halve b) total))
-     (else
-      (fast-multiply-iter a (- b 1) (+ total a)))))
+(trace fast-multiply-rec)
+(fast-multiply-rec 2 14444)
 
 (trace fast-multiply-iter)
-(fast-multiply 2 144)
+(fast-multiply 2 14444)
