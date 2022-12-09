@@ -1,4 +1,6 @@
-#lang sicp
+#lang racket/base
+
+(require racket/trace)
 
 (define (halve x)
   (/ x 2))
@@ -31,5 +33,32 @@
 
 ; fast-multiply uses ceiling(log_2(b)) steps
 
-;(define (fast-multiply a b)
-;  (fast-multiply-iter))
+(define (fast-multiply a b)
+  (fast-multiply-iter a b 0))
+
+; maintain as invariant ab + n
+; if b is odd, then in the next iteration
+; let a'=a, b'=b-1, n'=n + a
+; a'b' + n
+; = a(b - 1) + n + a
+; = ab - a + n + a
+; = ab + n
+
+; if b is even, then in the next iteration
+; let a'=2a, b'=b/2, n'=n
+; a'b' + n'
+; 2a * b/2 + n
+; = 2a/1 * b/2 + n
+; = 2ab/2 + n
+; = ab + n
+
+(define (fast-multiply-iter a b total)
+  (cond ((= b 0)
+      total)
+     ((even? b)
+      (fast-multiply-iter (double a) (halve b) total))
+     (else
+      (fast-multiply-iter a (- b 1) (+ total a)))))
+
+(trace fast-multiply-iter)
+(fast-multiply 2 144)
