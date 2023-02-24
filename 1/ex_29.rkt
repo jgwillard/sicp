@@ -24,10 +24,13 @@
 
 
 (define (simpsons-integral f a b n)
+
   (define (h)
     (/ (- b a) n))
+
   (define (y k)
     (f (+ a (* k (h)))))
+
   (define (term k)
     (cond ((= k 0)
            (y k))
@@ -35,11 +38,9 @@
            (* 2 (y k)))
           (else
            (* 4 (y k)))))
-  (define (simpsons-integral-rec k)
-    (if (> k n)
-        0
-        (+ (simpsons-integral-rec (+ k 1)) (term k))))
-  (* (simpsons-integral-rec 0) (/ (h) 3.0)))
+
+  (* (sum term 0 inc n) (/ (h) 3.0)))
+
 
 (simpsons-integral cube 0 1 100)
 ; 0.25333333333333335
