@@ -1,7 +1,5 @@
 #lang sicp
 
-(define (identity x) x)
-
 (define (product term a next b)
   (if (> a b)
       1
