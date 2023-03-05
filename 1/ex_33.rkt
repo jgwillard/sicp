@@ -39,6 +39,21 @@
       (= n (smallest-divisor n))))
 
 (define (sum-squares-of-primes a b)
-  (filtered-accumulate prime? + 0 identity a inc b))
+  (filtered-accumulate prime? + 0 square a inc b))
 
-(sum-squares-of-primes 1 10) ; 2 + 3 + 5 + 7 = 17
+(sum-squares-of-primes 1 10) ; 4 + 9 + 25 + 49 = 87
+
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
+(define (product-relative-primes n)
+
+  (define (relative-prime-to-n? i)
+    (= 1 (gcd i n)))
+
+  ; iterate from 2 to n - 1
+  (filtered-accumulate relative-prime-to-n? * 1 identity 2 inc (- n 1)))
+
+(product-relative-primes 10) ; 1 * 3 * 7 * 9 = 189
