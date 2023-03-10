@@ -25,10 +25,8 @@
 ; else, f(m, n - 1) + f(m - 1, n - 1)
 
 (define (f m n)
-  (cond ((= n 0) 1)
-        ((= n 1) 1)
-        ((= m 0) 1)
-        ((= m n) 1)
+  (cond ((= m 0) 1) ; left edge
+        ((= m n) 1) ; right edge
         (else (+ (f m (dec n)) (f (dec m) (dec n))))))
 
 ; compute 7th row of Pascal's triangle (0 indexed)
