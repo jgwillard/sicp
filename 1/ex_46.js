@@ -3,8 +3,9 @@ const tolerance = 0.00001
 function iterativeImprove(isGoodEnough, improve) {
 
     const _iterativeImprove = (guess) => {
+
         if (isGoodEnough(guess)) {
-            return guess
+            return improve(guess)
         }
         return _iterativeImprove(improve(guess))
     }
